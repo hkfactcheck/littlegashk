@@ -1,0 +1,8 @@
+{
+	"auth": {
+		"littlegashkc173f582": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
