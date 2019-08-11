@@ -41,9 +41,9 @@ const NewsList = ({ data = [] }) => {
 					<div key={item.topicId}>
 						<Link href={`/topic/${item.topicId}`}>
 							<ListItem alignItems="center">
-								<ListItemAvatar>
+								{/* <ListItemAvatar>
 									<Avatar alt="Remy Sharp" src="/static/images/news_mockup.png" />
-								</ListItemAvatar>
+								</ListItemAvatar> */}
 								<ListItemText
 									primary={
 										<div className={classes.titleRow}>

@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/ArrowBack';
+import HomeIcon from '@material-ui/icons/Home';
 import { withRouter } from 'next/router';
 
 import Drawer from './drawer';
@@ -41,7 +42,10 @@ const CustomAppBar = () => {
 						{/* Wait for after sorting function ready */}
 						{/* onClick={() => setDrawer(true)} */}
 						<Link href='/'>
-							<MenuIcon />
+							{/* next link must wrap with <a> tag */}
+							<a style={{ color: 'white' }}>
+								<HomeIcon />
+							</a>
 						</Link>
 					</IconButton>
 					<Typography variant="h6" className={classes.title}>

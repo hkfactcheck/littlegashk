@@ -1,12 +1,13 @@
 import fetch from 'isomorphic-unfetch'
 import { makeStyles } from '@material-ui/core/styles';
-import Layout from '../../components/layout';
+import Layout from '../../../components/layout';
 import get from 'lodash.get';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
-import Tabs from '../../components/tabs';
-import checkNull from '../../utils/checkNull';
-import Button from '@material-ui/core/Button';
+import Tabs from '../../../components/tabs';
+import checkNull from '../../../utils/checkNull';
+
+import { Summary, Progress, Related, References } from '../../../components';
 
 const useStyles = makeStyles(theme => ({
 	chip: {
@@ -14,56 +15,19 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Summary = ({ content }) => (
-	<div>
-		<p>{content}</p>
-	</div>
-)
-
-const Progress = () => (
-	<div></div>
-)
-
-const Related = ({ files = [], topics = [] }) => (
-	<div>
-		<div>
-			{
-				checkNull(files, []).map(f => f)
-			}
-		</div>
-		<div>
-			{
-				checkNull(topics, []).map(f => f)
-			}
-		</div>
-	</div>
-)
-
 const Topic = ({ data = {} }) => {
 	const classes = useStyles();
-	console.log(data);
+	const tags = checkNull(get(data, 'tags', []), []);
+	const references = checkNull(get(data, 'references', []), []);
+
 	return (
 		<Layout>
 			<Container maxWidth="md">
 				<h2>{data.title || ''}</h2>
-				{
-					checkNull(get(data, 'tags', []), []).map(i => (
-						<Chip size='small' label={i} className={classes.chip} />
-					))
-				}
+				{tags.map(t => <Chip size='small' label={t} className={classes.chip} />)}
 				<p>{data.eventDate || ''}</p>
 				<div style={{ marginTop: 15 }} />
-				<div style={{ paddingBottom: 10 }}>
-					{
-						checkNull(get(data, 'references', []), []).map((ref, i) => (
-							<a href={ref}>
-								<Button variant="outlined" className={classes.button}>
-									來源{i + 1}
-								</Button>
-							</a>
-						))
-					}
-				</div>
+				<References data={references} />
 				<Tabs
 					tab0={<Summary content={data.summary} />}
 					tab1={<Progress />}
