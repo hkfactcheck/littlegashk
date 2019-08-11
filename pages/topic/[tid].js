@@ -5,6 +5,8 @@ import get from 'lodash.get';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
 import Tabs from '../../components/tabs';
+import checkNull from '../../utils/checkNull';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
 	chip: {
@@ -12,39 +14,73 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+const Summary = ({ content }) => (
+	<div>
+		<p>{content}</p>
+	</div>
+)
+
+const Progress = () => (
+	<div></div>
+)
+
+const Related = ({ files = [], topics = [] }) => (
+	<div>
+		<div>
+			{
+				checkNull(files, []).map(f => f)
+			}
+		</div>
+		<div>
+			{
+				checkNull(topics, []).map(f => f)
+			}
+		</div>
+	</div>
+)
+
 const Topic = ({ data = {} }) => {
 	const classes = useStyles();
-
+	console.log(data);
 	return (
 		<Layout>
 			<Container maxWidth="md">
 				<h2>{data.title || ''}</h2>
 				{
-					get(data, 'tags', []).map(i => (
+					checkNull(get(data, 'tags', []), []).map(i => (
 						<Chip size='small' label={i} className={classes.chip} />
 					))
 				}
-				<p>{data.summary || ''}</p>
-				<p>{data.eventDateTime || ''}</p>
-				{
-					get(data, 'relatedFiles', []) && get(data, 'relatedFiles', []).map(i => (
-						<p>{i}</p>
-					))
-				}
-				{
-					get(data, 'references', []) && get(data, 'references', []).map(i => (
-						<p>{i}</p>
-					))
-				}
+				<p>{data.eventDate || ''}</p>
 				<div style={{ marginTop: 15 }} />
-				<Tabs />
+				<div style={{ paddingBottom: 10 }}>
+					{
+						checkNull(get(data, 'references', []), []).map((ref, i) => (
+							<a href={ref}>
+								<Button variant="outlined" className={classes.button}>
+									來源{i + 1}
+								</Button>
+							</a>
+						))
+					}
+				</div>
+				<Tabs
+					tab0={<Summary content={data.summary} />}
+					tab1={<Progress />}
+					tab2={
+						<Related
+							files={get(data, 'relatedFiles', [])}
+							topics={get(data, 'relatedTopics', [])}
+						/>
+					} 
+				/>
 			</Container>
 		</Layout>
 	);
 }
 
 Topic.getInitialProps = async ({ req, query }) => {
-	const res = await fetch(`http://3.130.98.8/topics/${query.tid}`)
+	const res = await fetch(`${process.env.API}topics/${query.tid}`)
 	try {
 		const json = await res.json()
 		console.log(json);
