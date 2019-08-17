@@ -1,3 +1,4 @@
+
 import fetch from 'isomorphic-unfetch'
 import { makeStyles } from '@material-ui/core/styles';
 import Layout from '../../components/layout';
@@ -5,46 +6,56 @@ import get from 'lodash.get';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
 import Tabs from '../../components/tabs';
+import checkNull from '../../utils/checkNull';
+import CardMedia from '@material-ui/core/CardMedia';
+
+import { Summary, Progress, Related, References } from '../../components';
 
 const useStyles = makeStyles(theme => ({
 	chip: {
 		marginRight: 5
+	},
+	media: {
+		height: 0,
+		paddingTop: '56.25%', // 16:9
 	}
 }));
 
 const Topic = ({ data = {} }) => {
 	const classes = useStyles();
+	const tags = checkNull(get(data, 'tags', []), []);
+	const references = checkNull(get(data, 'references', []), []);
 
 	return (
 		<Layout>
 			<Container maxWidth="md">
 				<h2>{data.title || ''}</h2>
-				{
-					get(data, 'tags', []).map(i => (
-						<Chip size='small' label={i} className={classes.chip} />
-					))
-				}
-				<p>{data.summary || ''}</p>
-				<p>{data.eventDateTime || ''}</p>
-				{
-					get(data, 'relatedFiles', []) && get(data, 'relatedFiles', []).map(i => (
-						<p>{i}</p>
-					))
-				}
-				{
-					get(data, 'references', []) && get(data, 'references', []).map(i => (
-						<p>{i}</p>
-					))
-				}
+				{tags.map(t => <Chip size='small' label={t} className={classes.chip} />)}
+				<p>{data.eventDate || ''}</p>
+				<CardMedia
+					className={classes.media}
+					image="/static/images/news_mockup.png"
+					title={data.title || ''}
+				/>
 				<div style={{ marginTop: 15 }} />
-				<Tabs />
+				{/* <References data={references} /> */}
+				<Tabs
+					tab0={<Summary content={references} />}
+					tab1={<Progress />}
+					tab2={
+						<Related
+							files={get(data, 'relatedFiles', [])}
+							topics={get(data, 'relatedTopics', [])}
+						/>
+					} 
+				/>
 			</Container>
 		</Layout>
 	);
 }
 
 Topic.getInitialProps = async ({ req, query }) => {
-	const res = await fetch(`http://3.130.98.8/topics/${query.tid}`)
+	const res = await fetch(`${process.env.API}topics/${query.tid}`)
 	try {
 		const json = await res.json()
 		console.log(json);

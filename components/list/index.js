@@ -33,11 +33,11 @@ const useStyles = makeStyles(theme => ({
 
 const NewsList = ({ data = [] }) => {
 	const classes = useStyles();
-
+	console.log('data ', data);
 	return (
 		<List className={classes.root}>
 			{
-				data.map(item => (
+				data.content.map(item => (
 					<div key={item.topicId}>
 						<Link href={`/topic/${item.topicId}`}>
 							<ListItem alignItems="center">

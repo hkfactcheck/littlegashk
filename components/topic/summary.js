@@ -1,6 +1,12 @@
+import References from './references';
+
 const Summary = ({ content }) => (
 	<div>
-		<p>{content}</p>
+		{
+			content.map(references=>(
+				<References data={references} />
+			))
+		}
 	</div>
 )
 
