@@ -47,7 +47,7 @@ TabPanel.propTypes = {
 };
 
 export default function SimpleTabs(props) {
-  const {tab0, tab1, tab2} =props;
+  const {tab0, tab1, tab2, tab3} =props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -62,6 +62,7 @@ export default function SimpleTabs(props) {
           <Tab label="SUMMARY" />
           <Tab label="PROGRESS" />
           <Tab label="RESPONSE" />
+          <Tab label="RELATED" />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -72,6 +73,9 @@ export default function SimpleTabs(props) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         {tab2}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        {tab3}
       </TabPanel>
     </div>
   );

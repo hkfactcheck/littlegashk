@@ -41,13 +41,14 @@ const Topic = ({ data = {} }) => {
 				{/* <References data={references} /> */}
 				<Tabs
 					tab0={<Summary content={references} />}
-					tab1={<Progress />}
+					tab1={<Progress topicId={data.topicId} />}
 					tab2={
 						<Related
 							files={get(data, 'relatedFiles', [])}
 							topics={get(data, 'relatedTopics', [])}
 						/>
 					} 
+					tab3={'123'}
 				/>
 			</Container>
 		</Layout>
