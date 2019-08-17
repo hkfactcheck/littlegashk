@@ -41,20 +41,13 @@ const NewsList = ({ data = [] }) => {
 					<div key={item.topicId}>
 						<Link href={`/topic/${item.topicId}`}>
 							<ListItem alignItems="center">
-								<ListItemAvatar>
+								{/* <ListItemAvatar>
 									<Avatar alt="Remy Sharp" src="/static/images/news_mockup.png" />
-								</ListItemAvatar>
+								</ListItemAvatar> */}
 								<ListItemText
 									primary={
 										<div className={classes.titleRow}>
 											<div>{item.title}</div>
-											<div>
-												{
-													get(item, 'tags', []).map(i =>
-														<Chip size='small' label={i} className={classes.chip} />
-													)
-												}
-											</div>
 										</div>
 									}
 									secondary={
@@ -67,6 +60,13 @@ const NewsList = ({ data = [] }) => {
 											>
 												{item.summary}
 											</Typography>
+											<div style={{ marginTop: 10, marginLeft: -5 }}>
+											{
+												get(item, 'tags', []).map(i =>
+													<Chip size='small' label={i} className={classes.chip} />
+												)
+											}
+											</div>
 											{/* {` - `}{get(item, 'references', []).map(i => i)} */}
 										</div>
 									}
