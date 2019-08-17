@@ -8,6 +8,7 @@ import Chip from '@material-ui/core/Chip';
 import Tabs from '../../components/tabs';
 import checkNull from '../../utils/checkNull';
 import CardMedia from '@material-ui/core/CardMedia';
+import Link from '../../src/link';
 
 import { Summary, Progress, Response, Related } from '../../components';
 
@@ -30,7 +31,11 @@ const Topic = ({ data = {} }) => {
 		<Layout>
 			<Container maxWidth="md">
 				<h2>{data.title || ''}</h2>
-				{tags.map(t => <Chip size='small' label={t} className={classes.chip} />)}
+				{tags.map(t => 
+					<Link href={`/tag/${t}`}>
+						<Chip size='small' label={t} className={classes.chip} />
+					</Link>
+				)}
 				<p>{data.eventDate || ''}</p>
 				<CardMedia
 					className={classes.media}
