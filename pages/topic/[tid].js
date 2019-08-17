@@ -9,7 +9,7 @@ import Tabs from '../../components/tabs';
 import checkNull from '../../utils/checkNull';
 import CardMedia from '@material-ui/core/CardMedia';
 
-import { Summary, Progress, Related, References } from '../../components';
+import { Summary, Progress, Response, Related } from '../../components';
 
 const useStyles = makeStyles(theme => ({
 	chip: {
@@ -38,17 +38,16 @@ const Topic = ({ data = {} }) => {
 					title={data.title || ''}
 				/>
 				<div style={{ marginTop: 15 }} />
-				{/* <References data={references} /> */}
 				<Tabs
 					tab0={<Summary content={references} />}
 					tab1={<Progress topicId={data.topicId} />}
-					tab2={
+					tab2={<Response topicId={data.topicId} />}
+					tab3={
 						<Related
 							files={get(data, 'relatedFiles', [])}
 							topics={get(data, 'relatedTopics', [])}
 						/>
-					} 
-					tab3={'123'}
+					} 					
 				/>
 			</Container>
 		</Layout>
