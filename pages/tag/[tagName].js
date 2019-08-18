@@ -6,8 +6,7 @@ const Tag = ({ data = [], tagName }) => {
 	console.log('data : ', data);
 	return (
 		<Layout>
-			<h2> Tag : {tagName}</h2>
-			<List data={data} />
+			<List data={data} header={'#' + tagName + '(' + data.totalElements + ')'} />
 		</Layout>
 	);
 }

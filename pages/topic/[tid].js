@@ -14,11 +14,20 @@ import { Summary, Progress, Response, Related } from '../../components';
 
 const useStyles = makeStyles(theme => ({
 	chip: {
-		marginRight: 5
+		marginLeft: 5,
+		color: '#ffffff',
+		background: 'none',
+		display: 'inline',
+		fontSize: '16px',
 	},
 	media: {
 		height: 0,
 		paddingTop: '56.25%', // 16:9
+	},
+	title: {
+		color: '#ffffff',
+		fontSize: '24px',
+		fontWeight: 'bold',
 	}
 }));
 
@@ -30,13 +39,13 @@ const Topic = ({ data = {} }) => {
 	return (
 		<Layout>
 			<Container maxWidth="md">
-				<h2>{data.title || ''}</h2>
+				<h2 className={classes.title}>{data.title || ''}</h2>
 				{tags.map(t => 
 					<Link href={`/tag/${t}`}>
-						<Chip size='small' label={t} className={classes.chip} />
+						<div className={classes.chip}>{'#' + t}</div>
 					</Link>
 				)}
-				<p>{data.eventDate || ''}</p>
+				<p style={{ color: '#fff' }}>{data.eventDate || ''}</p>
 				<CardMedia
 					className={classes.media}
 					image="/static/images/news_mockup.png"

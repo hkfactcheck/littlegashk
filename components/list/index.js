@@ -16,7 +16,11 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		width: '100%',
 		maxWidth: '100%',
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: theme.palette.background.default,
+	},
+	row: {
+		borderBottom: '1px solid #767d92',
+		textDecoration: 'none',
 	},
 	inline: {
 		display: 'inline',
@@ -25,20 +29,36 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		fontSize: '18px',
+		fontWeight: 'bold',
+		lineHeight: 1.4,
+		color: '#ffffff',
 	},
 	chip: {
-		marginLeft: 5
+		marginLeft: 5,
+		color: '#ffffff',
+		background: 'none',
+		display: 'inline',
+		fontSize: '14px',
+	},
+	pageTitle: {
+		fontSize: '16px',
+		color: '#d9d9d9',
+		padding: '10px 16px',
+		fontWeight: 'bold',
 	}
 }));
 
-const NewsList = ({ data = [] }) => {
+const NewsList = ({ data = [], header = 'Recently Update' }) => {
 	const classes = useStyles();
 	console.log('data ', data);
 	return (
+		
 		<List className={classes.root}>
+			<div className={classes.pageTitle}>{header}</div>
 			{
 				data.content.map(item => (
-					<div key={item.topicId}>
+					<div key={item.topicId} className={classes.row}>
 						<Link href={`/topic/${item.topicId}`}>
 							<ListItem alignItems="center">
 								{/* <ListItemAvatar>
@@ -63,7 +83,7 @@ const NewsList = ({ data = [] }) => {
 											<div style={{ marginTop: 10, marginLeft: -5 }}>
 											{
 												get(item, 'tags', []).map(i =>
-													<Chip size='small' label={i} className={classes.chip} />
+													<div className={classes.chip}>{'#' + i}</div>
 												)
 											}
 											</div>
