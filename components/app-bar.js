@@ -6,7 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/ArrowBack';
+import MenuIcon from '@material-ui/icons/Menu';
+import BackIcon from '@material-ui/icons/ArrowBack';
 import HomeIcon from '@material-ui/icons/Home';
 import { withRouter } from 'next/router';
 
@@ -21,10 +22,14 @@ const useStyles = makeStyles(theme => ({
 	},
 	title: {
 		flexGrow: 1,
+		fontSize: '14px',
 	},
 	appBar: {
-		backgroundColor: '#607d8b',
-		color: 'white'
+		backgroundColor: '#506680',
+		color: 'white',
+		textAlign: 'center',
+		// position: 'fixed',
+		// top: '0px',
 	}
 }));
 
@@ -51,6 +56,16 @@ const CustomAppBar = () => {
 					<Typography variant="h6" className={classes.title}>
 						Little Gas Book 小器簿
 					</Typography>
+					<IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu">
+						{/* Wait for after sorting function ready */}
+						{/* onClick={() => setDrawer(true)} */}
+						
+							{/* next link must wrap with <a> tag */}
+							<a style={{ color: 'white' }}>
+								<MenuIcon />
+							</a>
+						
+					</IconButton>
 				</Toolbar>
 			</AppBar>
 		</div>
