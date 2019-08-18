@@ -13,7 +13,8 @@ const Tag = ({ data = [], tagName }) => {
 }
 
 Tag.getInitialProps = async ({ req, query }) => {
-	const res = await fetch(`${process.env.API}tags/${query.tagName}/topics`)
+	const url= `${process.env.API}tags/${query.tagName}/topics`;
+	const res = await fetch(encodeURI(url));
 	try {
 		const json = await res.json()
 		console.log(json);
