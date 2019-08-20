@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 	},
 	menuButton: {
-		marginRight: theme.spacing(2),
+		// marginRight: theme.spacing(2),
 	},
 	title: {
 		flexGrow: 1,
@@ -44,8 +44,6 @@ const CustomAppBar = () => {
 			<AppBar position="static" color='inherit' className={classes.appBar}>
 				<Toolbar>
 					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-						{/* Wait for after sorting function ready */}
-						{/* onClick={() => setDrawer(true)} */}
 						<Link href='/'>
 							{/* next link must wrap with <a> tag */}
 							<a style={{ color: 'white' }}>
@@ -56,10 +54,7 @@ const CustomAppBar = () => {
 					<Typography variant="h6" className={classes.title}>
 						Little Gas Book 小器簿
 					</Typography>
-					<IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu">
-						{/* Wait for after sorting function ready */}
-						{/* onClick={() => setDrawer(true)} */}
-						
+					<IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setDrawer(true)}>
 							{/* next link must wrap with <a> tag */}
 							<a style={{ color: 'white' }}>
 								<MenuIcon />

@@ -13,6 +13,9 @@ const useStyles = theme => ({
 		// maxWidth: 345,
 		borderRadius: 0,
 		marginBottom: '20px',
+		'& a': {
+			color: '#3d8af7',
+		},
 	},
 	media: {
 		height: 0,
@@ -65,7 +68,8 @@ class Response extends React.Component {
 										<Typography paragraph>
 											{ref.comment}
 										</Typography>
-										<Typography paragraph>
+										<Typography variant="body2" color="textSecondary" component="p">
+											Source : <br/>
 											<a href={ref.link} title={ref.title}>{ref.name} - {ref.title}</a>
 										</Typography>
 									</CardContent>

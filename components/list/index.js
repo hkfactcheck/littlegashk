@@ -21,6 +21,10 @@ const useStyles = makeStyles(theme => ({
 	row: {
 		borderBottom: '1px solid #767d92',
 		textDecoration: 'none',
+		'& :hover': {
+			backgroundColor: '#767D92',
+			textDecoration: 'none',
+		},
 	},
 	inline: {
 		display: 'inline',
@@ -36,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	chip: {
 		marginLeft: 5,
-		color: '#ffffff',
+		color: '#d9d9d9',
 		background: 'none',
 		display: 'inline',
 		fontSize: '14px',
@@ -46,6 +50,21 @@ const useStyles = makeStyles(theme => ({
 		color: '#d9d9d9',
 		padding: '10px 16px',
 		fontWeight: 'bold',
+	},
+	avatar: {
+		width: '100px',
+		display: 'flex',
+		position: 'relative',
+		alignItems: 'center',
+		flexShrink: 0,
+		justifyContent: 'center',
+		marginRight: '10px',
+	},
+	avatarImg: {
+		width: '100%',
+		height: '100%',
+		objectFit: 'cover',
+		textAlign: 'center',
 	}
 }));
 
@@ -62,8 +81,16 @@ const NewsList = ({ data = [], header = 'Recently Update' }) => {
 						<Link href={`/topic/${item.topicId}`}>
 							<ListItem alignItems="center">
 								{/* <ListItemAvatar>
-									<Avatar alt="Remy Sharp" src="/static/images/news_mockup.png" />
+									<Avatar alt="Remy Sharp" src="/static/images/default.png" />
 								</ListItemAvatar> */}
+								<div className={classes.avatar}>
+									{
+										item.references[0].imageUrl ?
+										<img className={classes.avatarImg} src={item.references[0].imageUrl} />
+										:
+										<img className={classes.avatarImg} src="/static/images/default.png" />
+									}
+								</div>
 								<ListItemText
 									primary={
 										<div className={classes.titleRow}>
