@@ -7,17 +7,22 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import color from '@material-ui/core/colors/orange';
 
 const useStyles = theme => ({
 	card: {
 		// maxWidth: 345,
 		borderRadius: 0,
 		marginBottom: '20px',
+		'& a': {
+			color: '#3d8af7',
+		},
 	},
 	media: {
 		height: 0,
 		paddingTop: '56.25%', // 16:9
 	},
+	
 });
 
 class Progress extends React.Component {
@@ -65,7 +70,8 @@ class Progress extends React.Component {
 										<Typography paragraph>
 											{ref.comment}
 										</Typography>
-										<Typography paragraph>
+										<Typography variant="body2" color="textSecondary" component="p">
+											Source : <br/>
 											<a href={ref.link} title={ref.title}>{ref.name} - {ref.title}</a>
 										</Typography>
 									</CardContent>

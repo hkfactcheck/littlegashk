@@ -15,10 +15,16 @@ import { Summary, Progress, Response, Related } from '../../components';
 const useStyles = makeStyles(theme => ({
 	chip: {
 		marginLeft: 5,
-		color: '#ffffff',
+		color: '#d9d9d9',
 		background: 'none',
 		display: 'inline',
 		fontSize: '16px',
+	},
+	chipLink: {
+		'& :hover': {
+			backgroundColor: '#767D92',
+			textDecoration: 'none',
+		},
 	},
 	media: {
 		height: 0,
@@ -41,7 +47,7 @@ const Topic = ({ data = {} }) => {
 			<Container maxWidth="md">
 				<h2 className={classes.title}>{data.title || ''}</h2>
 				{tags.map(t => 
-					<Link href={`/tag/${t}`}>
+					<Link href={`/tag/${t}`} className={classes.chipLink}>
 						<div className={classes.chip}>{'#' + t}</div>
 					</Link>
 				)}
