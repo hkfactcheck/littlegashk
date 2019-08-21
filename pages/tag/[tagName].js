@@ -17,7 +17,7 @@ Tag.filterTopic = (data) => {
 	data.content.forEach(element => {
 		if (element.type == "TOPIC") {
 			
-		} else{
+		} else {
 			data.content.splice(data.content.indexOf(element), 1 );
 		}
 	});
@@ -32,7 +32,7 @@ Tag.getInitialProps = async ({ req, query }) => {
 		console.log('json.content :', json.content);
 		return { data: json, tagName:`${query.tagName}` }
 	} catch (e) {
-		return { data: null }
+		return { data: [] }
 	}
 }
 

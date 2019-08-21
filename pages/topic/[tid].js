@@ -41,6 +41,7 @@ const Topic = ({ data = {} }) => {
 	const classes = useStyles();
 	const tags = checkNull(get(data, 'tags', []), []);
 	const references = checkNull(get(data, 'references', []), []);
+	const image = references? references[0].imageUrl : null;
 
 	return (
 		<Layout>
@@ -54,7 +55,7 @@ const Topic = ({ data = {} }) => {
 				<p style={{ color: '#fff' }}>{data.eventDate || ''}</p>
 				<CardMedia
 					className={classes.media}
-					image="/static/images/news_mockup.png"
+					image={image? image:"/static/images/default.png"}
 					title={data.title || ''}
 				/>
 				<div style={{ marginTop: 15 }} />
