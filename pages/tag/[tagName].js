@@ -4,8 +4,6 @@ import List from '../../components/list';
 
 const Tag = ({ data = [], tagName }) => {
 	// console.log('data1 : ', data);
-	Tag.filterTopic(data);
-
 	return (
 		<Layout>
 			<List data={data} header={'#' + tagName + '(' + data.content.length + ')'} />
@@ -14,14 +12,15 @@ const Tag = ({ data = [], tagName }) => {
 }
 
 Tag.filterTopic = (data) => {
+	var output = [];
+
 	data.content.forEach(element => {
 		if (element.type == "TOPIC") {
-			
-		} else {
-			data.content.splice(data.content.indexOf(element), 1 );
-		}
+			output.push(element);
+		} 
 	});
-	console.log('data2 : ', data);
+	data.content = output;
+	return data;
 }
 
 Tag.getInitialProps = async ({ req, query }) => {
@@ -29,8 +28,8 @@ Tag.getInitialProps = async ({ req, query }) => {
 	const res = await fetch(encodeURI(url));
 	try {
 		const json = await res.json()
-		console.log('json.content :', json.content);
-		return { data: json, tagName:`${query.tagName}` }
+		var result = Tag.filterTopic(json);
+		return { data: result, tagName:`${query.tagName}` }
 	} catch (e) {
 		return { data: [] }
 	}
