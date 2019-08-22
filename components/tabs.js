@@ -59,10 +59,10 @@ export default function SimpleTabs(props) {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="SUMMARY" />
-          <Tab label="PROGRESS" />
-          <Tab label="RESPONSE" />
-          <Tab label="RELATED" />
+          <Tab label="資料來源" />
+          <Tab label="事件跟進" />
+          <Tab label="官方回應" />
+          <Tab label="相關事件" />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
