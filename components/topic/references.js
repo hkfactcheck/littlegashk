@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 		// maxWidth: 345,
 		borderRadius: 0,
 		marginBottom: '20px',
+		backgroundColor: '#f9f9f9',
 		'& a': {
 			color: '#3d8af7',
 		},
