@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const NewsList = ({ data = [], header = 'Recently Update !' }) => {
+const NewsList = ({ data = [], header = 'Recently Update !!' }) => {
 	const classes = useStyles();
 	console.log('data ', data);
 	return (
