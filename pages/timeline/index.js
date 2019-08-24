@@ -2,12 +2,12 @@ import fetch from 'isomorphic-unfetch'
 import Layout from '../../components/layout';
 import List from '../../components/timeline';
 
-const TimelineHome = ({ data = [] , d}) => {
+const TimelineHome = ({ data = [] , d, lastItemDate}) => {
 	// console.log('return = ', data);
 
 	return (
 		<Layout>
-			<List data={data} header={'Timeline'}/>
+			<List data={data} header={'Timeline'} lastItemDate={lastItemDate} />
 		</Layout>
 	);
 }
@@ -32,6 +32,7 @@ TimelineHome.getInitialProps = async () => {
 		// get Data
 		var date = tempDate;
 		const result = [];
+		var lastItemDate = '';
 	
 		for (var i = 0 ; i < 5; i++) {
 			date.setDate(date.getDate() - 1);
@@ -42,9 +43,11 @@ TimelineHome.getInitialProps = async () => {
 			obj.date = dateString;
 			obj.content = json.content;
 			result.push(obj);
+
+			lastItemDate = dateString;
 		}
 
-		return { data: result , d: tempDate}
+		return { data: result , d: tempDate, lastItemDate: lastItemDate}
 	} catch (e) {
 		return { data: null, d:e}
 	}
