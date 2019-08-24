@@ -5,6 +5,7 @@ import get from 'lodash.get';
 import checkNull from '../../utils/checkNull';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import color from '@material-ui/core/colors/orange';
@@ -14,6 +15,7 @@ const useStyles = theme => ({
 		// maxWidth: 345,
 		borderRadius: 0,
 		marginBottom: '20px',
+		backgroundColor: '#f9f9f9',
 		'& a': {
 			color: '#3d8af7',
 		},
@@ -67,6 +69,14 @@ class Progress extends React.Component {
 							{
 								item.references.map(ref => (
 									<CardContent>
+										{
+											ref.imageUrl?
+												<CardMedia
+													className={classes.media}
+													image={ref.imageUrl}
+													title="Paella dish"
+												/>:''	
+										}										
 										<Typography paragraph>
 											{ref.comment}
 										</Typography>
