@@ -21,6 +21,7 @@ const useStyles = theme => ({
 		textDecoration: 'none',
 		position: 'relative',
 		borderLeft: '8px dotted #ffffff',
+		minHeight: '60px',
 		'& :hover': {
 			backgroundColor: '#767D92',
 			textDecoration: 'none',
@@ -43,7 +44,7 @@ const useStyles = theme => ({
 	},
 	wrap: {
 		margin: 'auto',
-		width: '90%',
+		// width: '90%',
     	maxWidth: '1000px',
 	},
 	listItem:{
@@ -71,8 +72,11 @@ const useStyles = theme => ({
 		padding: '10px 16px',
 		fontWeight: 'bold',
 	},
-	style1: {
-		
+	style: {
+		height: '30px',
+		border: "1px solid green",
+		margin: '6px',
+		padding: '8px'
 	  }
 });
 
@@ -84,29 +88,12 @@ class TimelineList extends React.Component {
 		// Sets up our initial state
 		this.state = {
 			lastItemDate: this.props.lastItemDate,
-			loadingState: true,
+			loadingState: false,
 			topics: this.props.data,
 		  };
 		  this.formatDate = this.formatDate.bind(this);
 		  this.loadMoreItems = this.loadMoreItems.bind(this);
-	}
 
-	componentDidMount() {
-		const {loadingState} = this.state;
-		this.refs.iScroll.addEventListener("scroll", () => {
-			console.log('load more scrollTop', this.refs.iScroll.scrollTop);
-			if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight >=this.refs.iScroll.scrollHeight){
-			  this.loadMoreItems();
-			}
-		  });
-		if (loadingState) {
-			console.log('loadingState scrollTop', this.refs.iScroll.scrollTop);
-			console.log('loadingState clientHeight', this.refs.iScroll.clientHeight);
-			console.log('loadingState window.innerHeight', window.innerHeight);
-			if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight <= window.innerHeight){
-				this.loadMoreItems();
-			}
-		}
 	}
 
 	// format Date to 'YYYY-MM-DD'
@@ -123,10 +110,8 @@ class TimelineList extends React.Component {
 	}
 	 
 	loadMoreItems() {
-		const {loadingState, lastItemDate} = this.state;
+		const {lastItemDate, topics} = this.state;
 
-		// this.setState({ loadingState: true });
-		if (loadingState) {
 			var tempDate = new Date(lastItemDate);
 			tempDate.setDate(tempDate.getDate() - 1);
 			const dateString = this.formatDate(tempDate);
@@ -134,63 +119,67 @@ class TimelineList extends React.Component {
 			fetch(`${process.env.API}` + 'topics/date/' + dateString)
 			.then(response => response.json())
 			.then(data => {
-				let topic = this.state.topics;
-				const obj = {};
-				obj.date = dateString;
-				obj.content = data.content;
-				topic.push(obj);
-
-				this.setState({topic : topic, lastItemDate: dateString, loadingState : false});
-
-				// if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight >= window.innerHeight){
-				// 	this.setState({loadingState : false});
-				// }
+				this.setState({topics : topics.concat(data), lastItemDate: dateString});
+				// console.log('topic',topics);
 			})
-		}
-		
+
 	}
 
 	render() 
 	{
-		const { classes, header, data } = this.props;
-		// console.log('window.innerHeight ',window.innerHeight);
+		const { classes, header } = this.props;
+		const { topics } = this.state;
 
 		return (
 		
-		<div className={classes.root} ref="iScroll" >
+		<div className={classes.root}>
 			<div className={classes.pageTitle}>{header}</div>
-			<div className={classes.wrap}>
-			{
-				data.map(item => (
-					<div key={item.date} className={classes.dateRows}>
-						<div className={classes.dot}></div>
-						<div className={classes.dateText}>{item.date}</div>
+			<div className={classes.wrap} >
+				<div id="scrollableDiv" style={{ height: '600px', overflow: "auto"}}>
+					<InfiniteScroll
+						style={ {padding: '20px'} }
+						dataLength={this.state.topics.length}
+						next={this.loadMoreItems}
+						hasMore={true}
+						loader={<h4>Loading...</h4>}
+						scrollableTarget="scrollableDiv"
+					>
 						{
-							item.content?
-							(
-								item.content.map( element =>(
-									<Link key={element.topicId} href={`/topic/${element.topicId}`}>
-										<ListItem className={classes.listItem}>
+							topics.map(item => (
+								<div key={item.date} className={classes.dateRows}>
+									<div className={classes.dot}></div>
+									<div className={classes.dateText}>{item.date}</div>
+									{
+										item.topics.length > 0?
+										(
+											item.topics.map( element =>(
+												<Link key={element.topicId} href={`/topic/${element.topicId}`}>
+													<ListItem className={classes.listItem}>
+														<ListItemText
+															primary={
+																<div className={classes.titleRow}>
+																	<div>{element.title}</div>
+																</div>
+															}
+														/>
+													</ListItem>
+												</Link>
+											))
+										):(<ListItem className={classes.listItem}>
 											<ListItemText
 												primary={
 													<div className={classes.titleRow}>
-														<div>{element.title}</div>
+														<div>No Content</div>
 													</div>
 												}
 											/>
-										</ListItem>
-									</Link>
-								))
-							):'no content'
+										</ListItem>)
+									}
+								</div>
+							))
 						}
-					</div>
-				))
-			}
-			<div style={{ height: "auto", overflow: "auto" }}>
-				
-				{/* <div onClick={this.loadMoreItems()}></div> */}
-				{this.state.loadingState ? <div onClick={this.loadMoreItems()}> loading More Items..</div> : ""}
-			</div>
+					</InfiniteScroll>
+				</div>
 			</div>
 		</div>
 	)}

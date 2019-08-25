@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 		color: 'white',
 		textAlign: 'center',
 		// position: 'fixed',
-		// top: '0px',
+		top: '0px',
 	}
 }));
 
@@ -41,7 +41,7 @@ const CustomAppBar = () => {
 	return (
 		<div className={classes.root}>
 			<Drawer open={drawer} toggleDrawer={setDrawer} />
-			<AppBar position="static" color='inherit' className={classes.appBar}>
+			<AppBar position="fixed" color='inherit' className={classes.appBar}>
 				<Toolbar>
 					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
 						<Link href='/'>
