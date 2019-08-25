@@ -1,14 +1,16 @@
 import React from 'react';
 import fetch from 'isomorphic-unfetch'
-import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Link from '../../src/link';
 import get from 'lodash.get';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
 	root: {
 		width: '100%',
 		maxWidth: '100%',
@@ -19,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 		textDecoration: 'none',
 		position: 'relative',
 		borderLeft: '8px dotted #ffffff',
+		minHeight: '60px',
 		'& :hover': {
 			backgroundColor: '#767D92',
 			textDecoration: 'none',
@@ -41,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	wrap: {
 		margin: 'auto',
-		width: '90%',
+		// width: '90%',
     	maxWidth: '1000px',
 	},
 	listItem:{
@@ -69,57 +72,121 @@ const useStyles = makeStyles(theme => ({
 		padding: '10px 16px',
 		fontWeight: 'bold',
 	},
-}));
+	style: {
+		height: '30px',
+		border: "1px solid green",
+		margin: '6px',
+		padding: '8px'
+	  }
+});
 
-const TimelineList = ({ data = [], header = 'Timeline' }) => {
-	const classes = useStyles();
-	// console.log('data ', data);
-	TimelineList.loadMore();
+class TimelineList extends React.Component {
+	
+	constructor(props){
+		super(props); //({ data = [], header = 'Timeline' }) 
+	
+		// Sets up our initial state
+		this.state = {
+			lastItemDate: this.props.lastItemDate,
+			loadingState: false,
+			topics: this.props.data,
+		  };
+		  this.formatDate = this.formatDate.bind(this);
+		  this.loadMoreItems = this.loadMoreItems.bind(this);
 
-	return (
+	}
+
+	// format Date to 'YYYY-MM-DD'
+	formatDate(date) {
+		var d = date,
+			month = '' + (d.getMonth() + 1),
+			day = '' + d.getDate(),
+			year = d.getFullYear();
+
+		if (month.length < 2) month = '0' + month;
+		if (day.length < 2) day = '0' + day;
+
+		return [year, month, day].join('-');
+	}
+	 
+	loadMoreItems() {
+		const {lastItemDate, topics} = this.state;
+
+			var tempDate = new Date(lastItemDate);
+			tempDate.setDate(tempDate.getDate() - 1);
+			const dateString = this.formatDate(tempDate);
+
+			fetch(`${process.env.API}` + 'topics/date/' + dateString)
+			.then(response => response.json())
+			.then(data => {
+				this.setState({topics : topics.concat(data), lastItemDate: dateString});
+				// console.log('topic',topics);
+			})
+
+	}
+
+	render() 
+	{
+		const { classes, header } = this.props;
+		const { topics } = this.state;
+
+		return (
 		
-		<List className={classes.root}>
+		<div className={classes.root}>
 			<div className={classes.pageTitle}>{header}</div>
-			<div className={classes.wrap}>
-			{
-				data.map(item => (
-					<div key={item.date} className={classes.dateRows}>
-						<div className={classes.dot}></div>
-						<div className={classes.dateText}>{item.date}</div>
+			<div className={classes.wrap} >
+				<div id="scrollableDiv" style={{ height: '600px', overflow: "auto"}}>
+					<InfiniteScroll
+						style={ {padding: '20px'} }
+						dataLength={this.state.topics.length}
+						next={this.loadMoreItems}
+						hasMore={true}
+						loader={<h4>Loading...</h4>}
+						scrollableTarget="scrollableDiv"
+					>
 						{
-							item.content?
-							(
-								item.content.map( element =>(
-									<Link key={element.topicId} href={`/topic/${element.topicId}`}>
-										<ListItem className={classes.listItem}>
+							topics.map(item => (
+								<div key={item.date} className={classes.dateRows}>
+									<div className={classes.dot}></div>
+									<div className={classes.dateText}>{item.date}</div>
+									{
+										item.topics.length > 0?
+										(
+											item.topics.map( element =>(
+												<Link key={element.topicId} href={`/topic/${element.topicId}`}>
+													<ListItem className={classes.listItem}>
+														<ListItemText
+															primary={
+																<div className={classes.titleRow}>
+																	<div>{element.title}</div>
+																</div>
+															}
+														/>
+													</ListItem>
+												</Link>
+											))
+										):(<ListItem className={classes.listItem}>
 											<ListItemText
 												primary={
 													<div className={classes.titleRow}>
-														<div>{element.title}</div>
+														<div>No Content</div>
 													</div>
 												}
 											/>
-										</ListItem>
-									</Link>
-								))
-							):'no content'
+										</ListItem>)
+									}
+								</div>
+							))
 						}
-					</div>
-				))
-			}
+					</InfiniteScroll>
+				</div>
 			</div>
-		</List>
-	)
+		</div>
+	)}
 };
 
-TimelineList.loadMore = () => {
-	// fetch(`${process.env.API}` + 'topics/date/2019-07-21')
-	// 	.then(response => response.json())
-	// 	.then(data => {
-	// 		let progresses = data.content;
+TimelineList.propTypes = {
+	classes: PropTypes.object.isRequired,
+  };
 
-	// 		console.log('progress : ', progresses);
-	// 	})
-}
-
-export default TimelineList;
+export default withStyles(useStyles)(TimelineList);
