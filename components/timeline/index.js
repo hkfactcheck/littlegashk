@@ -1,14 +1,16 @@
 import React from 'react';
 import fetch from 'isomorphic-unfetch'
-import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Link from '../../src/link';
 import get from 'lodash.get';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
 	root: {
 		width: '100%',
 		maxWidth: '100%',
@@ -69,16 +71,93 @@ const useStyles = makeStyles(theme => ({
 		padding: '10px 16px',
 		fontWeight: 'bold',
 	},
-}));
-
-const TimelineList = ({ data = [], header = 'Timeline' }) => {
-	const classes = useStyles();
-	// console.log('data ', data);
-	TimelineList.loadMore();
-
-	return (
+	style1: {
 		
-		<List className={classes.root}>
+	  }
+});
+
+class TimelineList extends React.Component {
+	
+	constructor(props){
+		super(props); //({ data = [], header = 'Timeline' }) 
+	
+		// Sets up our initial state
+		this.state = {
+			lastItemDate: this.props.lastItemDate,
+			loadingState: true,
+			topics: this.props.data,
+		  };
+		  this.formatDate = this.formatDate.bind(this);
+		  this.loadMoreItems = this.loadMoreItems.bind(this);
+	}
+
+	componentDidMount() {
+		const {loadingState} = this.state;
+		this.refs.iScroll.addEventListener("scroll", () => {
+			console.log('load more scrollTop', this.refs.iScroll.scrollTop);
+			if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight >=this.refs.iScroll.scrollHeight){
+			  this.loadMoreItems();
+			}
+		  });
+		if (loadingState) {
+			console.log('loadingState scrollTop', this.refs.iScroll.scrollTop);
+			console.log('loadingState clientHeight', this.refs.iScroll.clientHeight);
+			console.log('loadingState window.innerHeight', window.innerHeight);
+			if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight <= window.innerHeight){
+				this.loadMoreItems();
+			}
+		}
+	}
+
+	// format Date to 'YYYY-MM-DD'
+	formatDate(date) {
+		var d = date,
+			month = '' + (d.getMonth() + 1),
+			day = '' + d.getDate(),
+			year = d.getFullYear();
+
+		if (month.length < 2) month = '0' + month;
+		if (day.length < 2) day = '0' + day;
+
+		return [year, month, day].join('-');
+	}
+	 
+	loadMoreItems() {
+		const {loadingState, lastItemDate} = this.state;
+
+		// this.setState({ loadingState: true });
+		if (loadingState) {
+			var tempDate = new Date(lastItemDate);
+			tempDate.setDate(tempDate.getDate() - 1);
+			const dateString = this.formatDate(tempDate);
+
+			fetch(`${process.env.API}` + 'topics/date/' + dateString)
+			.then(response => response.json())
+			.then(data => {
+				let topic = this.state.topics;
+				const obj = {};
+				obj.date = dateString;
+				obj.content = data.content;
+				topic.push(obj);
+
+				this.setState({topic : topic, lastItemDate: dateString, loadingState : false});
+
+				// if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight >= window.innerHeight){
+				// 	this.setState({loadingState : false});
+				// }
+			})
+		}
+		
+	}
+
+	render() 
+	{
+		const { classes, header, data } = this.props;
+		// console.log('window.innerHeight ',window.innerHeight);
+
+		return (
+		
+		<div className={classes.root} ref="iScroll" >
 			<div className={classes.pageTitle}>{header}</div>
 			<div className={classes.wrap}>
 			{
@@ -107,19 +186,18 @@ const TimelineList = ({ data = [], header = 'Timeline' }) => {
 					</div>
 				))
 			}
+			<div style={{ height: "auto", overflow: "auto" }}>
+				
+				{/* <div onClick={this.loadMoreItems()}></div> */}
+				{this.state.loadingState ? <div onClick={this.loadMoreItems()}> loading More Items..</div> : ""}
 			</div>
-		</List>
-	)
+			</div>
+		</div>
+	)}
 };
 
-TimelineList.loadMore = () => {
-	// fetch(`${process.env.API}` + 'topics/date/2019-07-21')
-	// 	.then(response => response.json())
-	// 	.then(data => {
-	// 		let progresses = data.content;
+TimelineList.propTypes = {
+	classes: PropTypes.object.isRequired,
+  };
 
-	// 		console.log('progress : ', progresses);
-	// 	})
-}
-
-export default TimelineList;
+export default withStyles(useStyles)(TimelineList);

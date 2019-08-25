@@ -110,7 +110,7 @@ const NewsList = ({ data = [], header = 'Recently Update' }) => {
 											<div style={{ marginTop: 10, marginLeft: -5 }}>
 											{
 												get(item, 'tags', []).map(i =>
-													<div className={classes.chip}>{'#' + i}</div>
+													<div key={i} className={classes.chip}>{'#' + i}</div>
 												)
 											}
 											</div>
