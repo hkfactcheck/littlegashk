@@ -34,15 +34,12 @@ TimelineHome.getInitialProps = async () => {
 		const result = [];
 		var lastItemDate = '';
 	
-		for (var i = 0 ; i < 5; i++) {
+		for (var i = 0 ; i < 10; i++) {
 			date.setDate(date.getDate() - 1);
 			const dateString = TimelineHome.formatDate(date);
 			const res = await fetch(process.env.API + 'topics/date/' + dateString);
 			const json = await res.json();
-			const obj = {};
-			obj.date = dateString;
-			obj.content = json.content;
-			result.push(obj);
+			result.push(json);
 
 			lastItemDate = dateString;
 		}
