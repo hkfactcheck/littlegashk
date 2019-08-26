@@ -54,8 +54,8 @@ const useStyles = theme => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		fontSize: '18px',
-		fontWeight: 'bold',
+		fontSize: '16px',
+		// fontWeight: 'bold',
 		lineHeight: 1.4,
 		color: '#ffffff',
 	},
@@ -77,7 +77,17 @@ const useStyles = theme => ({
 		border: "1px solid green",
 		margin: '6px',
 		padding: '8px'
-	  }
+	},
+	loading: {
+		fontSize: '16px',
+		margin: 'auto',
+		padding: '10px',
+		borderRadius: '5px',
+		backgroundColor: '#506680',
+		color: '#ffffff',
+		width: '200px',
+		textAlign: 'center',
+	}
 });
 
 class TimelineList extends React.Component {
@@ -141,7 +151,7 @@ class TimelineList extends React.Component {
 						dataLength={this.state.topics.length}
 						next={this.loadMoreItems}
 						hasMore={true}
-						loader={<h4>Loading...</h4>}
+						loader={<div className={classes.loading}>Loading...</div>}
 						scrollableTarget="scrollableDiv"
 					>
 						{
