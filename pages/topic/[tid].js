@@ -9,6 +9,7 @@ import Tabs from '../../components/tabs';
 import checkNull from '../../utils/checkNull';
 import CardMedia from '@material-ui/core/CardMedia';
 import Link from '../../src/link';
+import SpeedDialTooltipOpen from '../../components/float-btn'
 
 import { Summary, Progress, Response, Related } from '../../components';
 
@@ -29,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 	media: {
 		height: 0,
 		paddingTop: '56.25%', // 16:9
+		backgroundSize: 'contain',
 	},
 	title: {
 		color: '#ffffff',
@@ -70,6 +72,7 @@ const Topic = ({ data = {} }) => {
 						/>
 					} 					
 				/>
+				<SpeedDialTooltipOpen topicId= {data.topicId}/>
 			</Container>
 		</Layout>
 	);
