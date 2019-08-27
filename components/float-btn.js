@@ -30,7 +30,7 @@ export default function SpeedDialTooltipOpen(data) {
 
   return (
     // <Link className={classes.speedDial}>
-        <a target='_blank' href={`https://t.me/littlegashk_tg_bot?start=` + encodeBase64(data.topicId)} className={classes.speedDial}>
+        <a target='_blank' href={`https://t.me/littlegashk_tg_bot?start=` + encodeBase64('tid=' + data.topicId)} className={classes.speedDial}>
             <Fab color="primary" aria-label="edit" className={classes.fab}>
                 <AddCommentIcon/>
             </Fab>
