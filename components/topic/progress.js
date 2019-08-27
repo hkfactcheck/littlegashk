@@ -54,13 +54,13 @@ class Progress extends React.Component {
 	}
 
 	render() {
-		const {progresses} = this.state;
+		// const {progresses} = this.state;
 		const { classes } = this.props;
 
 		return (
 			<div>
 				{
-					progresses.map(item => (
+					this.state.progresses.map(item => (
 						<Card className={classes.card}>
 							<CardHeader
 								title={item.title}
@@ -90,6 +90,16 @@ class Progress extends React.Component {
 						</Card>					
 					))
 				}
+				{
+					this.state.progresses.length <= 0?
+					(
+					<Card className={classes.card}>
+						<CardHeader
+							subheader='No Progress yet'
+						/>
+					</Card>):''
+				}
+				
 			</div>
 			
 		)

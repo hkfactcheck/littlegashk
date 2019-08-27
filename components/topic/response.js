@@ -52,13 +52,13 @@ class Response extends React.Component {
 	}
 
 	render() {
-		const {responses} = this.state;
+		// const {responses} = this.state;
 		const { classes } = this.props;
 
 		return (
 			<div>
-				{ responses.length > 0 ? 
-					(responses.map(item => (
+				{ 
+					this.state.responses.map(item => (
 						<Card className={classes.card}>
 							<CardHeader
 								title={item.title}
@@ -86,12 +86,15 @@ class Response extends React.Component {
 								))
 							}							
 						</Card>					
-					))): 
-					<Card className={classes.card}>
+					))
+				}
+				{
+					this.state.responses.length <= 0 ? 
+					(<Card className={classes.card}>
 						<CardHeader
 							subheader='No Response yet'
 						/>
-					</Card>
+					</Card>):''
 				}
 			</div>
 			

@@ -43,11 +43,12 @@ const Topic = ({ data = {} }) => {
 	const classes = useStyles();
 	const tags = checkNull(get(data, 'tags', []), []);
 	const references = checkNull(get(data, 'references', []), []);
+	const relateds = checkNull(get(data, 'relatedTopics', []), []);
 	const image = references? references[0].imageUrl : null;
 
 	return (
 		<Layout>
-			<Container maxWidth="md">
+			<Container maxWidth="md" style={{paddingBottom:'20px'}}>
 				<h2 className={classes.title}>{data.title || ''}</h2>
 				{tags.map(t => 
 					<Link href={`/tag/${t}`} className={classes.chipLink}>
@@ -65,12 +66,7 @@ const Topic = ({ data = {} }) => {
 					tab0={<Summary content={references} />}
 					tab1={<Progress topicId={data.topicId} />}
 					tab2={<Response topicId={data.topicId} />}
-					tab3={
-						<Related
-							files={get(data, 'relatedFiles', [])}
-							topics={get(data, 'relatedTopics', [])}
-						/>
-					} 					
+					tab3={<Related topics={relateds} />} 					
 				/>
 				<SpeedDialTooltipOpen topicId= {data.topicId}/>
 			</Container>
