@@ -99,14 +99,14 @@ const NewsList = ({ data = [], header = 'Recently Update' }) => {
 									}
 									secondary={
 										<div>
-											<Typography
+											{/* <Typography
 												component="span"
 												variant="body2"
 												className={classes.inline}
 												color="textPrimary"
 											>
 												{item.summary}
-											</Typography>
+											</Typography> */}
 											<div style={{ marginTop: 10, marginLeft: -5 }}>
 											{
 												get(item, 'tags', []).map(i =>
@@ -114,7 +114,6 @@ const NewsList = ({ data = [], header = 'Recently Update' }) => {
 												)
 											}
 											</div>
-											{/* {` - `}{get(item, 'references', []).map(i => i)} */}
 										</div>
 									}
 								/>
