@@ -14,9 +14,17 @@ const theme = createMuiTheme({
 			main: red.A400,
 		},
 		background: {
-			default: '#fff',
+			default: '#353C51',
 		},
 	},
+	overrides: {
+		MuiDrawer: {
+			paper: {
+				fontSize: '1rem',
+				backgroundColor: '#e2e2e2',
+		  },
+		},
+	  },
 });
 
 export default theme;

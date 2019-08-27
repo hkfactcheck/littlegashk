@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 		padding: 0,
 	},
 	appBar: {
-		backgroundColor: '#607d8b',
+		backgroundColor: '#767d92',
 	}
 }));
 
@@ -46,7 +46,8 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-export default function SimpleTabs() {
+export default function SimpleTabs(props) {
+  const {tab0, tab1, tab2, tab3} =props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -58,19 +59,23 @@ export default function SimpleTabs() {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Item One" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
+          <Tab label="資料來源" />
+          <Tab label="事件跟進" />
+          <Tab label="官方回應" />
+          <Tab label="相關事件" />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-				<Card />
+        {tab0}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        {tab1}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        {tab2}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        {tab3}
       </TabPanel>
     </div>
   );
