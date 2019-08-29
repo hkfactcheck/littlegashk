@@ -1,6 +1,7 @@
 import checkNull from '../../utils/checkNull';
 
-import fetch from 'isomorphic-unfetch'
+// import fetch from 'isomorphic-unfetch'
+import fetch from 'unfetch'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import get from 'lodash.get';
