@@ -80,9 +80,6 @@ const NewsList = ({ data = [], header = 'Recently Update' }) => {
 					<div key={item.topicId} className={classes.row}>
 						<Link href={`/topic/${item.topicId}`}>
 							<ListItem alignItems="center">
-								{/* <ListItemAvatar>
-									<Avatar alt="Remy Sharp" src="/static/images/default.png" />
-								</ListItemAvatar> */}
 								<div className={classes.avatar}>
 									{
 										item.references[0].imageUrl ?
@@ -99,14 +96,6 @@ const NewsList = ({ data = [], header = 'Recently Update' }) => {
 									}
 									secondary={
 										<div>
-											{/* <Typography
-												component="span"
-												variant="body2"
-												className={classes.inline}
-												color="textPrimary"
-											>
-												{item.summary}
-											</Typography> */}
 											<div style={{ marginTop: 10, marginLeft: -5 }}>
 											{
 												get(item, 'tags', []).map(i =>

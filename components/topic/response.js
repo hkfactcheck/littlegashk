@@ -32,6 +32,7 @@ class Response extends React.Component {
 		this.state = {
 			responses : [],
 		};
+		this.getData = this.getData.bind(this);
 	}
 
 	componentDidMount() {

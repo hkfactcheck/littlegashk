@@ -1,7 +1,6 @@
 import checkNull from '../../utils/checkNull';
 
-// import fetch from 'isomorphic-unfetch'
-import axios from "axios"
+import fetch from 'isomorphic-unfetch'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import get from 'lodash.get';
@@ -74,31 +73,30 @@ class Related extends React.Component {
 	}
 
 	componentDidMount() {
-		// if (this.props.topics) {
-			this.getData();
-		// } 
+		const {topics, hasNext} = this.props;
+		console.log('this.props.topics : ', topics);
+
+		if (topics) {
+			topics.forEach(element => {
+				this.getData(element);
+				console.log('element : ', element);
+			});
+		} 
 	}
 
-	getData() {
-		const {topics} = this.props;
+	getData(id) {
 		const {relatedTopics} = this.state;
 
-		topics.forEach(element => {
-			// fetch(`${process.env.API}` + 'topics/' + element)
-			// .then(response => response.json())
-			// .then(data => {
-			// 	// relatedTopics.push(data);
+		// topics.forEach(element => {
+			fetch(`${process.env.API}` + 'topics/' + id)
+			.then(response => response.json())
+			.then(data => {
+				// relatedTopics.push(data);
 
-			// 	this.setState({relatedTopics : [...this.state.relatedTopics, data]});
-			// 	console.log('relatedTopics : ', data);
-			// })
-			axios.get(`${process.env.API}` + 'topics/' + element)
-			.then(response => response.data)
-			.then((data) => {
-			this.setState({ relatedTopics: [...this.state.relatedTopics, data] })
-			console.log(this.state.relatedTopics)
+				this.setState({relatedTopics : [...this.state.relatedTopics, data]});
+				console.log('relatedTopics : ', data);
 			})
-		});
+		// });
 		
 	}
 
@@ -112,7 +110,7 @@ class Related extends React.Component {
 					relatedTopics.map(item => (
 						<div key={item.topicId} className={classes.row}>
 							<Link href={`/topic/${item.topicId}`}>
-								<a>
+								{/* <a> */}
 									<Card className={classes.card}>
 										<CardContent className={classes.container}>
 											{
@@ -137,12 +135,12 @@ class Related extends React.Component {
 											}
 										</div>				
 									</Card>		
-								</a>
+								{/* </a> */}
 							</Link>			
 						</div>
 					))
 				}
-				<div onClick={this.getData} style={{cursor:'pointer', fontSize:'18px',}}> Click Me To Load More</div>
+				{/* <div onClick={this.getData} style={{cursor:'pointer', fontSize:'18px',}}> Click Me To Load More</div> */}
 
 				{/* {
 					relatedTopics.length <= 0 ?
