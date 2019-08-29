@@ -95,7 +95,7 @@ class Related extends React.Component {
 			axios.get(`${process.env.API}` + 'topics/' + element)
 			.then(response => response.data)
 			.then((data) => {
-			this.setState({ relatedTopics: relatedTopics.concat(data) })
+			this.setState({ relatedTopics: [...this.state.relatedTopics, data] })
 			console.log(this.state.relatedTopics)
 			})
 		});
@@ -142,6 +142,7 @@ class Related extends React.Component {
 						</div>
 					))
 				}
+				<div onClick={this.getData} style={{cursor:'pointer', fontSize:'18px',}}> Click Me To Load More</div>
 
 				{/* {
 					relatedTopics.length <= 0 ?
