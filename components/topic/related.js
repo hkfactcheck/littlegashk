@@ -67,7 +67,9 @@ class Related extends React.Component {
 		super(props);
 		this.state = {
 			relatedTopics : [],
+			hasNext : false,
 		};
+		this.getData = this.getData.bind(this);
 	}
 
 	componentDidMount() {
@@ -84,9 +86,9 @@ class Related extends React.Component {
 			fetch(`${process.env.API}` + 'topics/' + element)
 			.then(response => response.json())
 			.then(data => {
-				relatedTopics.push(data);
+				// relatedTopics.push(data);
 
-				this.setState({relatedTopics : relatedTopics});
+				this.setState({relatedTopics : [...this.state.relatedTopics, data]});
 				console.log('relatedTopics : ', data);
 			})
 		});
@@ -94,13 +96,13 @@ class Related extends React.Component {
 	}
 
 	render() {
-		// const {relatedTopics} = this.state;
+		const {relatedTopics} = this.state;
 		const { classes } = this.props;
 
 		return (
 			<div>
 				{
-					this.state.relatedTopics.map(item => (
+					relatedTopics.map(item => (
 						<div key={item.topicId} className={classes.row}>
 							<Link href={`/topic/${item.topicId}`}>
 								<a>
@@ -134,14 +136,14 @@ class Related extends React.Component {
 					))
 				}
 
-				{
-					this.state.relatedTopics.length <= 0 ?
+				{/* {
+					relatedTopics.length <= 0 ?
 						(<Card className={classes.card}>
 							<CardHeader
 								subheader='No Related yet'
 							/>
 						</Card>):''
-				}
+				} */}
 			</div>
 			
 		)
