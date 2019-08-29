@@ -1,7 +1,7 @@
 import checkNull from '../../utils/checkNull';
 
 // import fetch from 'isomorphic-unfetch'
-import fetch from 'unfetch'
+import axios from "axios"
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import get from 'lodash.get';
@@ -84,13 +84,19 @@ class Related extends React.Component {
 		const {relatedTopics} = this.state;
 
 		topics.forEach(element => {
-			fetch(`${process.env.API}` + 'topics/' + element)
-			.then(response => response.json())
-			.then(data => {
-				// relatedTopics.push(data);
+			// fetch(`${process.env.API}` + 'topics/' + element)
+			// .then(response => response.json())
+			// .then(data => {
+			// 	// relatedTopics.push(data);
 
-				this.setState({relatedTopics : [...this.state.relatedTopics, data]});
-				console.log('relatedTopics : ', data);
+			// 	this.setState({relatedTopics : [...this.state.relatedTopics, data]});
+			// 	console.log('relatedTopics : ', data);
+			// })
+			axios.get(`${process.env.API}` + 'topics/' + element)
+			.then(response => response.data)
+			.then((data) => {
+			this.setState({ relatedTopics: relatedTopics.concat(data) })
+			console.log(this.state.relatedTopics)
 			})
 		});
 		
