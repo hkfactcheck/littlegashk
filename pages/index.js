@@ -11,7 +11,7 @@ const Home = ({ data = [] }) => {
 }
 
 Home.getInitialProps = async () => {
-	const res = await fetch(process.env.API + 'topics?date=')
+	const res = await fetch(process.env.API + 'topics?page=0')
 	try {
 		const json = await res.json()
 		console.log(json);
