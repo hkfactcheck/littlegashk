@@ -5,7 +5,7 @@ import List from '../components/list';
 const Home = ({ data = [] }) => {
 	return (
 		<Layout>
-			<List data={data} />
+			<List data={data} header={'Recently Update'} apiPath={'topics?page='} />
 		</Layout>
 	);
 }
