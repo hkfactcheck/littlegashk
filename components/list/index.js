@@ -97,9 +97,10 @@ class NewsList extends React.Component {
 	}
 
 	loadMoreItems() {
+		const {apiPath} = this.props;
 		const {nextPage, hasNext, topics} = this.state;
 
-		fetch(`${process.env.API}` + 'topics?page=' + nextPage)
+		fetch(`${process.env.API}` + apiPath + nextPage)
 			.then(response => response.json())
 			.then(data => {
 				let list = data.content;
@@ -111,13 +112,13 @@ class NewsList extends React.Component {
 	}
 
 	render() {
-		const {classes} = this.props;
+		const {classes, header} = this.props;
 		const {hasNext, topics} = this.state;
 		console.log('data ', topics);
 		
 		return (
 			<List className={classes.root}>
-				<div className={classes.pageTitle}>Recently Update</div>
+				<div className={classes.pageTitle}>{header}</div>
 				<div id="scrollableDiv" style={{ height: 'calc(100vh - 160px)', overflow: "auto"}}>
 					<InfiniteScroll
 						style={ {padding: '20px'} }
