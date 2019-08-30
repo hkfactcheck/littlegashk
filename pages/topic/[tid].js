@@ -76,9 +76,11 @@ const Topic = ({ data = {} }) => {
 
 Topic.getInitialProps = async ({ req, query }) => {
 	const res = await fetch(`${process.env.API}topics/${query.tid}`)
+
 	try {
 		const json = await res.json()
 		console.log(json);
+
 		return { data: json }
 	} catch (e) {
 		return { data: null }

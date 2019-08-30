@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
 				<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 			</Head>
 			<CustomAppBar />
-			<div style={{position:'relative', top: '56px', minHeight: 'calc(100vh)'}}>{children}</div>
+			<div style={{position:'relative', top: '56px'}}>{children}</div>
 			
 		</div>
 	)
