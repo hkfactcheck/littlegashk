@@ -135,10 +135,13 @@ class NewsList extends React.Component {
 								<ListItem alignItems="center">
 									<div className={classes.avatar}>
 										{
-											item.references[0].imageUrl ?
-											<img className={classes.avatarImg} src={item.references[0].imageUrl} />
+											item.imageUrl ?
+											<img className={classes.avatarImg} src={item.imageUrl} title={item.title || ''} />:
+											(item.references[0].imageUrl ?
+											<img className={classes.avatarImg} src={item.references[0].imageUrl} title={item.title || ''}/>
 											:
-											<img className={classes.avatarImg} src="/static/images/default.png" />
+											<img className={classes.avatarImg} src="/static/images/default.png" title={item.title || ''}/>
+											)
 										}
 									</div>
 									<ListItemText

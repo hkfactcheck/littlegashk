@@ -32,39 +32,18 @@ class Progress extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			progresses : [],
 			hasNext : false,
 		};
-		this.getData = this.getData.bind(this);
-	}
-
-	componentDidMount() {
-		if (this.state.progresses) {
-			this.getData();
-		}
-	}
-
-	getData() {
-		const {progresses} = this.state;
-		fetch(`${process.env.API}` + 'topics/' + this.props.topicId + '/progress')
-		.then(response => response.json())
-		.then(data => {
-			// let progresses = data.content;
-
-			this.setState({progresses : progresses.concat(data.content)});
-			console.log('progress : ', progresses);
-		})
 	}
 
 	render() {
-		const {progresses} = this.state;
-		const { classes } = this.props;
+		const { classes, data } = this.props;
 
 		return (
 			<div>
 				{
-					progresses.map(item => (
-						<Card className={classes.card}>
+					data.content.map(item => (
+						<Card key={item.name} className={classes.card}>
 							<CardHeader
 								title={item.title}
 								subheader={item.eventDate}
@@ -93,15 +72,15 @@ class Progress extends React.Component {
 						</Card>					
 					))
 				}
-				{/* {
-					progresses.length <= 0?
+				{
+					data.content.length <= 0?
 					(
 					<Card className={classes.card}>
 						<CardHeader
-							subheader='No Progress yet'
+							subheader='沒有資料'
 						/>
 					</Card>):''
-				} */}
+				}
 				
 			</div>
 			
