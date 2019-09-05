@@ -61,7 +61,7 @@ export default function SimpleTabs(props) {
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="資料來源" />
           <Tab label="事件跟進" />
-          <Tab label="官方回應" />
+          <Tab label="網友回應" />
           <Tab label="相關事件" />
         </Tabs>
       </AppBar>
