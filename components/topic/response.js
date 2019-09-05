@@ -37,30 +37,30 @@ class Response extends React.Component {
 
 	componentDidMount() {
 		if (this.state.responses) {
-			this.getData();
+			// this.getData();
 		}
 	}
 
 	getData() {
-		fetch(`${process.env.API}` + 'topics/' + this.props.topicId + '/response')
-		.then(response => response.json())
-		.then(data => {
-			let responses = data.content;
+		// fetch(`${process.env.API}` + 'topics/' + this.props.topicId + '/response')
+		// .then(response => response.json())
+		// .then(data => {
+		// 	let responses = data.content;
 
-			this.setState({responses : responses});
-			console.log('responses : ', responses);
-		})
+		// 	this.setState({responses : responses});
+		// 	console.log('responses : ', responses);
+		// })
 	}
 
 	render() {
 		// const {responses} = this.state;
-		const { classes } = this.props;
+		const { classes, data } = this.props;
 
 		return (
 			<div>
 				{ 
-					this.state.responses.map(item => (
-						<Card className={classes.card}>
+					data.content.map(item => (
+						<Card key={item.name} className={classes.card}>
 							<CardHeader
 								title={item.title}
 								subheader={item.eventDate}
@@ -93,7 +93,7 @@ class Response extends React.Component {
 					this.state.responses.length <= 0 ? 
 					(<Card className={classes.card}>
 						<CardHeader
-							subheader='No Response yet'
+							subheader='沒有資料'
 						/>
 					</Card>):''
 				}
