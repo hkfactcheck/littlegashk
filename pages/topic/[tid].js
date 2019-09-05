@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: 5,
 		color: '#d9d9d9',
 		background: 'none',
-		display: 'inline',
+		display: 'inline-block',
 		fontSize: '16px',
 	},
 	chipLink: {
@@ -39,12 +39,12 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Topic = ({ data = {} }) => {
+const Topic = ({ data = {}, progress= {}, response={} }) => {
 	const classes = useStyles();
 	const tags = checkNull(get(data, 'tags', []), []);
 	const references = checkNull(get(data, 'references', []), []);
 	const relateds = checkNull(get(data, 'relatedTopics', []), []);
-	const image = references? references[0].imageUrl : null;
+	const image = data.imageUrl? data.imageUrl : (references? references[0].imageUrl : null);
 
 	return (
 		<Layout>
@@ -58,14 +58,14 @@ const Topic = ({ data = {} }) => {
 				<p style={{ color: '#fff' }}>{data.eventDate || ''}</p>
 				<CardMedia
 					className={classes.media}
-					image={image? image:"/static/images/default.png"}
+					image={image != "None" ? image:"/static/images/default.png"}
 					title={data.title || ''}
 				/>
 				<div style={{ marginTop: 15 }} />
 				<Tabs
 					tab0={<Summary content={references} />}
-					tab1={<Progress topicId={data.topicId} />}
-					tab2={<Response topicId={data.topicId} />}
+					tab1={<Progress topicId={data.topicId} data={progress} />}
+					tab2={<Response topicId={data.topicId} data={response} />}
 					tab3={<Related topics={relateds} />} 					
 				/>
 				<SpeedDialTooltipOpen topicId= {data.topicId}/>
@@ -75,16 +75,26 @@ const Topic = ({ data = {} }) => {
 }
 
 Topic.getInitialProps = async ({ req, query }) => {
-	const res = await fetch(`${process.env.API}topics/${query.tid}`)
+	// const res = await fetch(`${process.env.API}topics/${query.tid}`)
 
-	try {
-		const json = await res.json()
-		console.log(json);
+	const topicId = query.tid;
 
-		return { data: json }
-	} catch (e) {
-		return { data: null }
-	}
+	const [data, progress, response] = await Promise.all([
+		fetch(`${process.env.API}topics/`+topicId).then(r => r.json()),
+		fetch(`${process.env.API}` + 'topics/' + topicId + '/progress').then(r => r.json()),
+		fetch(`${process.env.API}` + 'topics/' + topicId + '/response').then(r => r.json())
+	]);
+
+	return {data:data, progress:progress, response:response};
+
+	// try {
+	// 	const json = await res.json()
+	// 	console.log(json);
+
+	// 	return { data: json }
+	// } catch (e) {
+	// 	return { data: null }
+	// }
 }
 
 export default Topic;

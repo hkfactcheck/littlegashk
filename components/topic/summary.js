@@ -4,7 +4,7 @@ const Summary = ({ content }) => (
 	<div>
 		{
 			content.map(references=>(
-				<References data={references} />
+				<References key={references.name} data={references} />
 			))
 		}
 	</div>

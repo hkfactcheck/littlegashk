@@ -6,7 +6,7 @@ const Tag = ({ data = [], tagName }) => {
 	// console.log('data1 : ', data);
 	return (
 		<Layout>
-			<List data={data} header={'#' + tagName + '(' + data.content.length + ')'} />
+			<List data={data} header={'#' + tagName + '(' + data.content.length + ')'} apiPath={encodeURI('tags/'+tagName+'/topics?page=')}/>
 		</Layout>
 	);
 }
@@ -24,7 +24,7 @@ Tag.filterTopic = (data) => {
 }
 
 Tag.getInitialProps = async ({ req, query }) => {
-	const url= `${process.env.API}tags/${query.tagName}/topics`;
+	const url= `${process.env.API}tags/${query.tagName}/topics?page=0`;
 	const res = await fetch(encodeURI(url));
 	try {
 		const json = await res.json()

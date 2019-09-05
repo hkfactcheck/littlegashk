@@ -86,6 +86,7 @@ class Related extends React.Component {
 
 	getData(id) {
 		const {relatedTopics} = this.state;
+		console.log('get Data : relatedTopics : ', `${process.env.API}`);
 
 		// topics.forEach(element => {
 			fetch(`${process.env.API}` + 'topics/' + id)
@@ -142,14 +143,14 @@ class Related extends React.Component {
 				}
 				{/* <div onClick={this.getData} style={{cursor:'pointer', fontSize:'18px',}}> Click Me To Load More</div> */}
 
-				{/* {
+				{
 					relatedTopics.length <= 0 ?
 						(<Card className={classes.card}>
 							<CardHeader
-								subheader='No Related yet'
+								subheader='沒有資料'
 							/>
 						</Card>):''
-				} */}
+				}
 			</div>
 			
 		)
