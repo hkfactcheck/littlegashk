@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: 5,
 		color: '#d9d9d9',
 		background: 'none',
-		display: 'inline',
+		display: 'inline-block',
 		fontSize: '16px',
 	},
 	chipLink: {

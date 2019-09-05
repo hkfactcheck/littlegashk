@@ -30,30 +30,10 @@ class Response extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			responses : [],
 		};
-		this.getData = this.getData.bind(this);
-	}
-
-	componentDidMount() {
-		if (this.state.responses) {
-			// this.getData();
-		}
-	}
-
-	getData() {
-		// fetch(`${process.env.API}` + 'topics/' + this.props.topicId + '/response')
-		// .then(response => response.json())
-		// .then(data => {
-		// 	let responses = data.content;
-
-		// 	this.setState({responses : responses});
-		// 	console.log('responses : ', responses);
-		// })
 	}
 
 	render() {
-		// const {responses} = this.state;
 		const { classes, data } = this.props;
 
 		return (
@@ -90,7 +70,7 @@ class Response extends React.Component {
 					))
 				}
 				{
-					this.state.responses.length <= 0 ? 
+					data.content.length <= 0 ? 
 					(<Card className={classes.card}>
 						<CardHeader
 							subheader='沒有資料'
