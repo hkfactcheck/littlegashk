@@ -22,8 +22,12 @@ const useStyles = theme => ({
 			color: '#3d8af7',
 		},
 	},
+	header: {
+		paddingBottom: '0px',
+	},
 	container: {
 		display: 'inline-flex',
+		paddingTop: '0px',
 	},
 	row: {
 		// borderBottom: '1px solid #767d92',
@@ -113,6 +117,10 @@ class Related extends React.Component {
 							<Link href={`/topic/${item.topicId}`}>
 								{/* <a> */}
 									<Card className={classes.card}>
+
+										<CardHeader className={classes.header}
+											subheader={item.eventDate}
+										/>
 										<CardContent className={classes.container}>
 											{
 												<div className={classes.avatar}>
@@ -123,18 +131,21 @@ class Related extends React.Component {
 													<img className={classes.avatarImg} src="/static/images/default.png" />
 												}
 												</div>
-											}										
-											<Typography style={{marginTop:'16px'}}>
-												{item.title}
-											</Typography>
+											}		
+											<div>							
+												<Typography style={{marginTop:'16px'}}>
+													{item.title}
+												</Typography>
+												<div >
+													{
+														get(item, 'tags', []).map(i =>
+															<div key={i} className={classes.chip}>{'#' + i}</div>
+														)
+													}
+												</div>	
+											</div>	
 										</CardContent>
-										<div >
-											{
-												get(item, 'tags', []).map(i =>
-													<div key={i} className={classes.chip}>{'#' + i}</div>
-												)
-											}
-										</div>				
+													
 									</Card>		
 								{/* </a> */}
 							</Link>			

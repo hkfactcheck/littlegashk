@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import color from '@material-ui/core/colors/orange';
+import Link from '../../src/link';
 
 const useStyles = theme => ({
 	card: {
@@ -20,11 +21,29 @@ const useStyles = theme => ({
 			color: '#3d8af7',
 		},
 	},
+	cardContent:{
+		paddingBottom: '0px',
+	},
+	chip: {
+		marginLeft: 5,
+		color: '#3d8af7',
+		background: 'none',
+		display: 'inline-block',
+		fontSize: '16px',
+	},
+	chipLink: {
+		'& :hover': {
+			backgroundColor: '#fdf500',
+			textDecoration: 'none',
+		},
+	},
 	media: {
 		height: 0,
 		paddingTop: '56.25%', // 16:9
 	},
-	
+	paragraph: {
+		marginTop: '10px',
+	},
 });
 
 class Progress extends React.Component {
@@ -44,10 +63,19 @@ class Progress extends React.Component {
 				{
 					data.content.map(item => (
 						<Card key={item.name} className={classes.card}>
-							<CardHeader
-								title={item.title}
-								subheader={item.eventDate}
-							/>
+							<CardContent className={classes.cardContent}>
+								<Typography variant="h5" component="h2">
+									{item.title}
+								</Typography>
+								<Typography variant="body2" color="textSecondary" component="p">
+									{item.eventDate}
+								</Typography>
+								{item.tags.map(t => 
+									<Link href={`/tag/${t}`} className={classes.chipLink}>
+										<div className={classes.chip}>{'#' + t}</div>
+									</Link>
+								)}
+							</CardContent>
 							{
 								item.references.map(ref => (
 									<CardContent>
@@ -59,7 +87,7 @@ class Progress extends React.Component {
 													title="Paella dish"
 												/>:''	
 										}										
-										<Typography paragraph>
+										<Typography paragraph className={classes.paragraph}>
 											{ref.comment}
 										</Typography>
 										<Typography variant="body2" color="textSecondary" component="p">

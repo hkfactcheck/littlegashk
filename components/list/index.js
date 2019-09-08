@@ -170,7 +170,7 @@ class NewsList extends React.Component {
 				}
 				{
 					hasNext?
-					<div className={classes.btnF5} onClick={this.loadMoreItems.bind(this)}>F5</div>
+					<div className={classes.btnF5} onClick={this.loadMoreItems.bind(this)}>Next</div>
 					:<div className={classes.btnF5}>- 完 -</div>
 				}
 				</InfiniteScroll>
