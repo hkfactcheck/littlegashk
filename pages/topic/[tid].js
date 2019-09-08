@@ -79,13 +79,18 @@ Topic.getInitialProps = async ({ req, query }) => {
 
 	const topicId = query.tid;
 
-	const [data, progress, response] = await Promise.all([
-		fetch(`${process.env.API}topics/`+topicId).then(r => r.json()),
-		fetch(`${process.env.API}` + 'topics/' + topicId + '/progress').then(r => r.json()),
-		fetch(`${process.env.API}` + 'topics/' + topicId + '/response').then(r => r.json())
-	]);
+	try {
+		const [data, progress, response] = await Promise.all([
+			fetch(`${process.env.API}topics/`+topicId).then(r => r.json()),
+			fetch(`${process.env.API}` + 'topics/' + topicId + '/progress').then(r => r.json()),
+			fetch(`${process.env.API}` + 'topics/' + topicId + '/response').then(r => r.json())
+		]);
+		return {data:data, progress:progress, response:response};
 
-	return {data:data, progress:progress, response:response};
+	} catch (error) {
+		return { data: null }
+	}
+	
 
 	// try {
 	// 	const json = await res.json()

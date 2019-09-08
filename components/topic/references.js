@@ -56,10 +56,6 @@ export default function ReferencesCard(props){
 
 	return(
 	<Card className={classes.card}>
-		<CardHeader
-			// title={data.title}
-			subheader={data.date}
-		/>
 		{/* <CardActions disableSpacing>
 			<IconButton
 				className={clsx(classes.expand, {
@@ -74,18 +70,18 @@ export default function ReferencesCard(props){
 		</CardActions> */}
 		{/* <Collapse in={expanded} timeout="auto" unmountOnExit> */}
 			<CardContent>
+				<Typography variant="body2" color="textSecondary" paragraph>
+					{data.date}
+				</Typography>
 				<Typography paragraph>
 					{data.comment}
 				</Typography>
+				<Typography variant="body2" color="textSecondary" component="p">
+					Source : <br/>
+					<a href={data.link} title={data.title}>{data.name} - {data.title}</a>
+				</Typography>
 			</CardContent>
 		{/* </Collapse> */}
-		<CardContent>
-			<Typography variant="body2" color="textSecondary" component="p">
-				Source : <br/>
-				<a href={data.link} title={data.title}>{data.name} - {data.title}</a>
-			</Typography>
-		</CardContent>
-		
 	</Card>
 	)
 };
