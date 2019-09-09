@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import color from '@material-ui/core/colors/orange';
 import Link from '../../src/link';
+import NoSsr from '@material-ui/core/NoSsr';
 
 const useStyles = theme => ({
 	card: {
@@ -110,6 +111,7 @@ class Related extends React.Component {
 		const { classes } = this.props;
 
 		return (
+			<NoSsr>
 			<div>
 				{
 					relatedTopics.map(item => (
@@ -163,7 +165,7 @@ class Related extends React.Component {
 						</Card>):''
 				}
 			</div>
-			
+			</NoSsr>
 		)
 	}
 	
