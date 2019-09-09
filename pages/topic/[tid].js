@@ -10,9 +10,8 @@ import checkNull from '../../utils/checkNull';
 import CardMedia from '@material-ui/core/CardMedia';
 import Link from '../../src/link';
 import SpeedDialTooltipOpen from '../../components/float-btn'
-import dynamic from 'next/dynamic'
 
-import { Summary, Progress, Response } from '../../components';
+import { Summary, Progress, Response, Related } from '../../components';
 
 const useStyles = makeStyles(theme => ({
 	chip: {
@@ -67,18 +66,13 @@ const Topic = ({ data = {}, progress= {}, response={} }) => {
 					tab0={<Summary content={references} />}
 					tab1={<Progress topicId={data.topicId} data={progress} />}
 					tab2={<Response topicId={data.topicId} data={response} />}
-					tab3={<DynamicComponentWithNoSSR topics={relateds} />} 					
+					tab3={<Related topics={relateds} />} 					
 				/>
 				<SpeedDialTooltipOpen topicId= {data.topicId}/>
 			</Container>
 		</Layout>
 	);
 }
-
-const DynamicComponentWithNoSSR = dynamic(
-	() => import('../../components/topic/related'),
-	{ ssr: false }
-  )
 
 Topic.getInitialProps = async ({ req, query }) => {
 	// const res = await fetch(`${process.env.API}topics/${query.tid}`)
