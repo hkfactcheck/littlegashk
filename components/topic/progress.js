@@ -52,16 +52,29 @@ class Progress extends React.Component {
 		super(props);
 		this.state = {
 			hasNext : false,
+			progresses : [],
 		};
 	}
 
+	componentDidMount() {
+		const { topicId } = this.props;
+		fetch(`${process.env.API}` + 'topics/' + encodeURI(topicId) + '/progress')
+		.then(response => response.json())
+		.then(data => {
+			let progresses = data.content;
+			this.setState({progresses : progresses});
+			// console.log('progresses : ', data);
+		})		
+	}
+
 	render() {
-		const { classes, data } = this.props;
+		const { classes } = this.props;
+		const { progresses } = this.state;
 
 		return (
 			<div>
 				{
-					data.content.map(item => (
+					progresses.map(item => (
 						<Card key={item.name} className={classes.card}>
 							<CardContent className={classes.cardContent}>
 								<Typography variant="h5" component="h2">
@@ -101,7 +114,7 @@ class Progress extends React.Component {
 					))
 				}
 				{
-					data.content.length <= 0?
+					progresses.length <= 0?
 					(
 					<Card className={classes.card}>
 						<CardHeader

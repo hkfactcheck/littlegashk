@@ -71,38 +71,26 @@ class Related extends React.Component {
 		super(props);
 		this.state = {
 			relatedTopics : [],
-			hasNext : false,
 		};
 		this.getData = this.getData.bind(this);
 	}
 
 	componentDidMount() {
-		const {topics, hasNext} = this.props;
-		console.log('this.props.topics : ', topics);
-
+		const {topics} = this.props;
 		if (topics) {
 			topics.forEach(element => {
 				this.getData(element);
-				console.log('element : ', element);
 			});
 		} 
 	}
 
 	getData(id) {
-		const {relatedTopics} = this.state;
-		console.log('get Data : relatedTopics : ', `${process.env.API}`);
-
-		// topics.forEach(element => {
-			fetch(`${process.env.API}` + 'topics/' + id)
-			.then(response => response.json())
-			.then(data => {
-				// relatedTopics.push(data);
-
-				this.setState({relatedTopics : [...this.state.relatedTopics, data]});
-				console.log('relatedTopics : ', data);
-			})
-		// });
-		
+		fetch(`${process.env.API}` + 'topics/' + encodeURI(id))
+		.then(response => response.json())
+		.then(data => {
+			this.setState({relatedTopics : [...this.state.relatedTopics, data]});
+			// console.log('relatedTopics : ', data);
+		})		
 	}
 
 	render() {
@@ -117,7 +105,6 @@ class Related extends React.Component {
 							<Link href={`/topic/${item.topicId}`}>
 								{/* <a> */}
 									<Card className={classes.card}>
-
 										<CardHeader className={classes.header}
 											subheader={item.eventDate}
 										/>
@@ -152,8 +139,6 @@ class Related extends React.Component {
 						</div>
 					))
 				}
-				{/* <div onClick={this.getData} style={{cursor:'pointer', fontSize:'18px',}}> Click Me To Load More</div> */}
-
 				{
 					relatedTopics.length <= 0 ?
 						(<Card className={classes.card}>
