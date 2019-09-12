@@ -50,16 +50,30 @@ class Response extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			hasNext : false,
+			responses : [],
 		};
 	}
 
+	componentDidMount() {
+		const { topicId } = this.props;
+		fetch(`${process.env.API}` + 'topics/' + encodeURI(topicId) + '/response')
+		.then(response => response.json())
+		.then(data => {
+			let responses = data.content;
+			this.setState({responses : responses});
+			// console.log('responses : ', data);
+		})		
+	}
+
 	render() {
-		const { classes, data } = this.props;
+		const { classes } = this.props;
+		const { responses } = this.state;
 
 		return (
 			<div>
 				{ 
-					data.content.map(item => (
+					responses.map(item => (
 						<Card key={item.name} className={classes.card}>
 							<CardContent className={classes.cardContent}>
 								<Typography variant="h5" component="h2">
@@ -99,7 +113,7 @@ class Response extends React.Component {
 					))
 				}
 				{
-					data.content.length <= 0 ? 
+					responses.length <= 0 ? 
 					(<Card className={classes.card}>
 						<CardHeader
 							subheader='沒有資料'

@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const Topic = ({ data = {}, progress= {}, response={} }) => {
+const Topic = ({ data = {} }) => {
 	const classes = useStyles();
 	const tags = checkNull(get(data, 'tags', []), []);
 	const references = checkNull(get(data, 'references', []), []);
@@ -64,8 +64,8 @@ const Topic = ({ data = {}, progress= {}, response={} }) => {
 				<div style={{ marginTop: 15 }} />
 				<Tabs
 					tab0={<Summary content={references} />}
-					tab1={<Progress topicId={data.topicId} data={progress} />}
-					tab2={<Response topicId={data.topicId} data={response} />}
+					tab1={<Progress topicId={data.topicId} />}
+					tab2={<Response topicId={data.topicId} />}
 					tab3={<Related topics={relateds} />} 					
 				/>
 				<SpeedDialTooltipOpen topicId= {data.topicId}/>
@@ -75,31 +75,16 @@ const Topic = ({ data = {}, progress= {}, response={} }) => {
 }
 
 Topic.getInitialProps = async ({ req, query }) => {
-	// const res = await fetch(`${process.env.API}topics/${query.tid}`)
-
+	const res = await fetch(`${process.env.API}topics/${query.tid}`)
 	const topicId = query.tid;
 
 	try {
-		const [data, progress, response] = await Promise.all([
-			fetch(`${process.env.API}topics/`+topicId).then(r => r.json()),
-			fetch(`${process.env.API}` + 'topics/' + topicId + '/progress').then(r => r.json()),
-			fetch(`${process.env.API}` + 'topics/' + topicId + '/response').then(r => r.json())
-		]);
-		return {data:data, progress:progress, response:response};
-
-	} catch (error) {
+		const json = await res.json()
+		// console.log(json);
+		return { data: json, topicId: topicId}
+	} catch (e) {
 		return { data: null }
 	}
-	
-
-	// try {
-	// 	const json = await res.json()
-	// 	console.log(json);
-
-	// 	return { data: json }
-	// } catch (e) {
-	// 	return { data: null }
-	// }
 }
 
 export default Topic;
